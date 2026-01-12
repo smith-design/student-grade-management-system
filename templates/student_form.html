@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}{{ '编辑学生' if student else '添加学生' }} - 学生成绩管理系统{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>{{ '编辑学生' if student else '添加学生' }}</h2>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">返回列表</a>
+</div>
+
+<div class="card col-md-8 mx-auto">
+    <div class="card-body">
+        <form method="POST">
+            <div class="mb-3">
+                <label for="student_id" class="form-label">学号 <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="student_id" name="student_id" 
+                       value="{{ student.student_id if student else '' }}" 
+                       {% if student %}readonly{% endif %} required>
+                {% if student %}
+                <div class="form-text">学号不可修改</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="name" class="form-label">姓名 <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="name" name="name" 
+                       value="{{ student.name if student else '' }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="class_name" class="form-label">班级 <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="class_name" name="class_name" 
+                       value="{{ student.class_name if student else '' }}" required>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="gender" class="form-label">性别</label>
+                    <select class="form-select" id="gender" name="gender">
+                        <option value="">请选择</option>
+                        <option value="男" {% if student and student.gender == '男' %}selected{% endif %}>男</option>
+                        <option value="女" {% if student and student.gender == '女' %}selected{% endif %}>女</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="age" class="form-label">年龄</label>
+                    <input type="number" class="form-control" id="age" name="age" 
+                           value="{{ student.age if student else '' }}" min="0">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="phone" class="form-label">联系电话</label>
+                <input type="tel" class="form-control" id="phone" name="phone" 
+                       value="{{ student.phone if student else '' }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">电子邮箱</label>
+                <input type="email" class="form-control" id="email" name="email" 
+                       value="{{ student.email if student else '' }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="address" class="form-label">家庭住址</label>
+                <textarea class="form-control" id="address" name="address" rows="3">{{ student.address if student else '' }}</textarea>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">保存</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

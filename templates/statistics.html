@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}数据统计 - 学生成绩管理系统{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h2>数据统计</h2>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header">
+                筛选统计
+            </div>
+            <div class="card-body">
+                <form class="row g-3" method="GET">
+                    <div class="col-auto">
+                        <select class="form-select" name="student_id">
+                            <option value="">所有学生</option>
+                            {% for s in students %}
+                            <option value="{{ s.student_id }}" {% if current_student_id == s.student_id %}selected{% endif %}>
+                                {{ s.student_id }} - {{ s.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">查看统计</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header">
+                总体概况
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-3">
+                        <h3>{{ stats.count }}</h3>
+                        <p class="text-muted">考试人次</p>
+                    </div>
+                    <div class="col-3">
+                        <h3>{{ stats.average }}</h3>
+                        <p class="text-muted">平均分</p>
+                    </div>
+                    <div class="col-3">
+                        <h3 class="text-success">{{ stats.max }}</h3>
+                        <p class="text-muted">最高分</p>
+                    </div>
+                    <div class="col-3">
+                        <h3 class="text-danger">{{ stats.min }}</h3>
+                        <p class="text-muted">最低分</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 可以添加更多图表或详细报表 -->
+{% endblock %}
