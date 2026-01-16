@@ -70,3 +70,16 @@ def delete_student(student_id):
         return {'success': True, 'message': '删除成功'}
     else:
         return {'success': False, 'message': '学生不存在'}
+
+def search_students(keyword):
+    """搜索学生（按姓名或学号）"""
+    all_students = get_all_students()
+    if not keyword:
+        return all_students
+    
+    keyword = keyword.lower()
+    return [
+        s for s in all_students 
+        if keyword in s['name'].lower() or keyword in s['student_id'].lower()
+    ]
+

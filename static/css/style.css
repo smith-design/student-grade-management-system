@@ -1,0 +1,224 @@
+:root {
+    --sidebar-bg: #2c3e50;
+    --sidebar-text: #ecf0f1;
+    --sidebar-hover: #34495e;
+    --primary-color: #3498db;
+    --accent-color: #e74c3c;
+    --bg-color: #f4f6f9;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --transition-speed: 0.3s;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+}
+
+/* 侧边栏美化 */
+.sidebar {
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    min-height: 100vh;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    z-index: 100;
+}
+
+.sidebar h4 {
+    color: #fff;
+    padding: 25px 0;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.list-group-item {
+    background-color: transparent;
+    color: rgba(255,255,255,0.7);
+    border: none;
+    padding: 12px 25px;
+    transition: all var(--transition-speed);
+    border-left: 4px solid transparent;
+    display: flex;
+    align-items: center;
+}
+
+.list-group-item:hover {
+    background-color: var(--sidebar-hover);
+    color: #fff;
+    padding-left: 30px;
+}
+
+.list-group-item.active {
+    background-color: var(--sidebar-hover);
+    color: #fff;
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.list-group-item i {
+    margin-right: 12px;
+    font-size: 1.1em;
+    width: 20px;
+    text-align: center;
+}
+
+/* 主内容区 */
+.main-content {
+    padding: 30px;
+}
+
+/* 卡片美化 */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    background-color: #fff;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    margin-bottom: 25px;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    font-weight: 600;
+    padding: 18px 25px;
+    border-radius: 12px 12px 0 0 !important;
+    font-size: 1.05rem;
+}
+
+.card-body {
+    padding: 25px;
+}
+
+/* 统计卡片特殊样式 */
+.bg-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; border: none; }
+.bg-success { background: linear-gradient(135deg, #2af598 0%, #009efd 100%) !important; border: none; }
+.bg-warning { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%) !important; border: none; }
+.bg-danger { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%) !important; border: none; }
+
+.card.text-white .card-header {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    font-weight: 500;
+}
+
+.card.text-white .card-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+/* 按钮美化 */
+.btn {
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all var(--transition-speed);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.btn-success {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+
+.btn-success:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(46, 204, 113, 0.3);
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+.btn-sm {
+    padding: 5px 12px;
+    font-size: 0.85rem;
+}
+
+/* 表格美化 */
+.table {
+    margin-bottom: 0;
+}
+.table thead th {
+    border-top: none;
+    border-bottom: 2px solid #f0f0f0;
+    color: #6c757d;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    padding: 15px;
+}
+.table td {
+    vertical-align: middle;
+    color: #555;
+    padding: 15px;
+    border-top: 1px solid #f8f9fa;
+}
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* 表单控件美化 */
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    transition: all 0.2s;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* 登录页美化 */
+.login-body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    overflow: hidden;
+    padding: 40px !important;
+}
+
+/* 徽章 */
+.badge {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* 页头标题 */
+h2 {
+    color: #2c3e50;
+    font-weight: 700;
+}

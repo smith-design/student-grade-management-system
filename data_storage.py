@@ -8,6 +8,9 @@ import time
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 STUDENTS_FILE = os.path.join(DATA_DIR, 'students.json')
 GRADES_FILE = os.path.join(DATA_DIR, 'grades.json')
+USERS_FILE = os.path.join(DATA_DIR, 'users.json')
+CLASSES_FILE = os.path.join(DATA_DIR, 'classes.json')
+COURSES_FILE = os.path.join(DATA_DIR, 'courses.json')
 
 
 def ensure_data_files():
@@ -17,6 +20,23 @@ def ensure_data_files():
         _save_json(STUDENTS_FILE, [])
     if not os.path.exists(GRADES_FILE):
         _save_json(GRADES_FILE, [])
+    if not os.path.exists(CLASSES_FILE):
+        # 默认班级数据
+        _save_json(CLASSES_FILE, [
+            {"id": 1, "name": "计算机一班"},
+            {"id": 2, "name": "计算机二班"},
+            {"id": 3, "name": "软件工程一班"}
+        ])
+    if not os.path.exists(COURSES_FILE):
+        # 默认课程数据
+        _save_json(COURSES_FILE, [
+            {"id": 1, "name": "Python程序设计", "credit": 3},
+            {"id": 2, "name": "数据结构", "credit": 4},
+            {"id": 3, "name": "高等数学", "credit": 5}
+        ])
+    if not os.path.exists(USERS_FILE):
+        # 默认添加一个管理员账号
+        _save_json(USERS_FILE, [{"id": 1, "username": "admin", "password": "123", "role": "admin"}])
 
 def _load_json(file_path):
     try:
@@ -78,6 +98,15 @@ def _handle_select(sql, params):
         if "WHERE student_id =" in sql and params:
              return [g for g in data if g['student_id'] == params['student_id']]
         return data
+    elif "FROM users" in sql:
+        data = _load_json(USERS_FILE)
+        if "WHERE username =" in sql and params:
+            return [u for u in data if u['username'] == params['username']]
+        return data
+    elif "FROM classes" in sql:
+        return _load_json(CLASSES_FILE)
+    elif "FROM courses" in sql:
+        return _load_json(COURSES_FILE)
     return []
 
 def _handle_insert(sql, params):
@@ -98,6 +127,30 @@ def _handle_insert(sql, params):
             new_record['id'] = int(time.time() * 1000)
         data.append(new_record)
         _save_json(GRADES_FILE, data)
+        return 1
+    elif "INTO users" in sql:
+        data = _load_json(USERS_FILE)
+        new_record = params.copy()
+        if 'id' not in new_record:
+            new_record['id'] = int(time.time() * 1000)
+        data.append(new_record)
+        _save_json(USERS_FILE, data)
+        return 1
+    elif "INTO classes" in sql:
+        data = _load_json(CLASSES_FILE)
+        new_record = params.copy()
+        if 'id' not in new_record:
+            new_record['id'] = int(time.time() * 1000)
+        data.append(new_record)
+        _save_json(CLASSES_FILE, data)
+        return 1
+    elif "INTO courses" in sql:
+        data = _load_json(COURSES_FILE)
+        new_record = params.copy()
+        if 'id' not in new_record:
+            new_record['id'] = int(time.time() * 1000)
+        data.append(new_record)
+        _save_json(COURSES_FILE, data)
         return 1
     return 0
 
@@ -140,5 +193,26 @@ def _handle_delete(sql, params):
         data = [d for d in data if d['id'] != params['id']]
         if len(data) < initial_len:
             _save_json(GRADES_FILE, data)
+            return initial_len - len(data)
+    elif "FROM users" in sql:
+        data = _load_json(USERS_FILE)
+        initial_len = len(data)
+        data = [d for d in data if d['id'] != params['id']]
+        if len(data) < initial_len:
+            _save_json(USERS_FILE, data)
+            return initial_len - len(data)
+    elif "FROM classes" in sql:
+        data = _load_json(CLASSES_FILE)
+        initial_len = len(data)
+        data = [d for d in data if d['id'] != params['id']]
+        if len(data) < initial_len:
+            _save_json(CLASSES_FILE, data)
+            return initial_len - len(data)
+    elif "FROM courses" in sql:
+        data = _load_json(COURSES_FILE)
+        initial_len = len(data)
+        data = [d for d in data if d['id'] != params['id']]
+        if len(data) < initial_len:
+            _save_json(COURSES_FILE, data)
             return initial_len - len(data)
     return 0

@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}仪表盘 - 学生成绩管理系统{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2 class="mb-3">欢迎回来, {{ session.get('username') }}</h2>
+        <p class="text-muted">这里是系统概览</p>
+    </div>
+</div>
+
+<!-- 统计卡片 -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3 h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-white-50 text-uppercase mb-2" style="font-size: 0.85rem; font-weight: 600;">学生总数</h6>
+                        <h2 class="mb-0 fw-bold">{{ stats.student_count }}</h2>
+                    </div>
+                    <i class="bi bi-people-fill fs-1 opacity-25"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3 h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-white-50 text-uppercase mb-2" style="font-size: 0.85rem; font-weight: 600;">班级总数</h6>
+                        <h2 class="mb-0 fw-bold">{{ stats.class_count }}</h2>
+                    </div>
+                    <i class="bi bi-building fs-1 opacity-25"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3 h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-white-50 text-uppercase mb-2" style="font-size: 0.85rem; font-weight: 600;">课程总数</h6>
+                        <h2 class="mb-0 fw-bold">{{ stats.course_count }}</h2>
+                    </div>
+                    <i class="bi bi-book-fill fs-1 opacity-25"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3 h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-white-50 text-uppercase mb-2" style="font-size: 0.85rem; font-weight: 600;">不及格记录</h6>
+                        <h2 class="mb-0 fw-bold">{{ stats.failed_count }}</h2>
+                    </div>
+                    <i class="bi bi-exclamation-triangle-fill fs-1 opacity-25"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- 快捷操作 -->
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="bi bi-lightning-charge me-2 text-warning"></i>快捷操作
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="{{ url_for('add_student_page') }}" class="list-group-item list-group-item-action d-flex align-items-center">
+                    <i class="bi bi-person-plus-fill me-3 text-primary fs-5"></i>
+                    <div>
+                        <div class="fw-bold">添加学生</div>
+                        <small class="text-muted">录入新学生信息</small>
+                    </div>
+                </a>
+                <a href="{{ url_for('add_grade_page') }}" class="list-group-item list-group-item-action d-flex align-items-center">
+                    <i class="bi bi-pencil-square me-3 text-success fs-5"></i>
+                    <div>
+                        <div class="fw-bold">录入成绩</div>
+                        <small class="text-muted">添加考试成绩记录</small>
+                    </div>
+                </a>
+                <a href="{{ url_for('export_students_action') }}" class="list-group-item list-group-item-action d-flex align-items-center">
+                    <i class="bi bi-file-earmark-spreadsheet me-3 text-info fs-5"></i>
+                    <div>
+                        <div class="fw-bold">导出数据</div>
+                        <small class="text-muted">下载学生数据 CSV</small>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 最新动态 -->
+    <div class="col-md-8">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-clock-history me-2 text-primary"></i>最新添加的学生</span>
+                <a href="{{ url_for('index') }}" class="btn btn-sm btn-outline-primary">查看全部</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">学号</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>加入时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in recent_students %}
+                            <tr>
+                                <td class="ps-4 fw-bold text-primary">{{ student.student_id }}</td>
+                                <td>{{ student.name }}</td>
+                                <td><span class="badge bg-light text-dark border">{{ student.class_name }}</span></td>
+                                <td class="text-muted small">{{ student.created_at[:10] if student.created_at else 'N/A' }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center py-4 text-muted">暂无数据</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
